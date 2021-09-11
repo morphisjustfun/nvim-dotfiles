@@ -1,0 +1,13 @@
+so plug.vim
+so preferences.vim
+so keymaps.vim
+so lsp.vim
+so treesitter.vim
+so extraPlugings.vim
+" DAP
+" cpp
+so ./dap/cpp.vim
+" setup
+so ./dap/general.vim
+so theme.vim
+so nerdtree.vim
