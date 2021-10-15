@@ -16,6 +16,7 @@ nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>x <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>aa :Telescope lsp_document_diagnostics<CR>
 nnoremap <leader>ad :Telescope lsp_workspace_diagnostics<CR>
+nnoremap <leader><leader> :Telescope<CR>
 nmap // :Telescope current_buffer_fuzzy_find<CR>
 
 " Lspsaga keymaps
@@ -33,6 +34,6 @@ tnoremap <silent> <A-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_t
 
 nnoremap <leader>i :Vista!!<CR>
 
-" Nerdtree
+" NvimTree
 
-nmap <Leader>nt :NERDTreeFind<CR>
+nmap <Leader>nt :NvimTreeToggle<CR>

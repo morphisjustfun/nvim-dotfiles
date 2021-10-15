@@ -24,6 +24,7 @@ set termguicolors
 set cursorline
 set cursorcolumn
 set splitright
+set splitbelow
 let mapleader = " "
 let &t_ut=''
 set signcolumn=auto:2
@@ -62,3 +63,11 @@ let g:dashboard_custom_header =[
          \'    &#######################&         ,&*,.        ###%##########&,             ',
          \' ###########################         ,,//(,        %######%####################&',
 \]
+
+" Vim autopep8
+
+let g:autopep8_aggressive=2
+
+" Nvim tree
+
+let g:auto_session_pre_save_cmds = ["tabdo NvimTreeClose"]

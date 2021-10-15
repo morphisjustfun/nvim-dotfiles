@@ -1,6 +1,13 @@
 lua << EOF
 local saga = require "lspsaga"
-saga.init_lsp_saga()
+saga.init_lsp_saga(
+{
+    error_sign = '', -- 
+    warn_sign = '',
+    hint_sign = '',
+    infor_sign = '',
+}
+)
 require "lsp_signature".setup()
 
 require("twilight").setup {}
@@ -19,9 +26,7 @@ require "nvim-web-devicons".setup {
     },
     -- globally enable default icons (default to false)
     -- will get overriden by `get_icons` option
-    default = true
-}
-
+    default = true }
 local actions = require("telescope.actions")
 local trouble = require("trouble.providers.telescope")
 
@@ -49,9 +54,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
     }
 )
 require "colorizer".setup()
+
 require("lualine").setup(
     {
-        options = {disabled_filetypes = {"dashboard"}}
+        options = {disabled_filetypes = {"dashboard","NvimTree"},
+        theme = "tokyonight"
+        },
     }
 )
 EOF

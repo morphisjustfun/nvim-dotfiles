@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
-Plug 'sainnhe/gruvbox-material'
-Plug 'preservim/nerdtree'
+Plug 'lewis6991/impatient.nvim'
+" Plug 'sainnhe/gruvbox-material'
+" Plug 'preservim/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
@@ -18,7 +19,8 @@ Plug 'liuchengxu/vista.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mfussenegger/nvim-jdtls'
 Plug 'lervag/vimtex'
-Plug 'glepnir/lspsaga.nvim'
+" Plug 'glepnir/lspsaga.nvim'
+Plug 'tami5/lspsaga.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'folke/nvim-lsp-ts-utils'
 Plug 'folke/lsp-colors.nvim'
@@ -45,6 +47,16 @@ Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'nvim-treesitter/playground'
 Plug 'wakatime/vim-wakatime'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'Pocco81/DAPInstall.nvim'
+Plug 'rmagatti/auto-session'
+Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'akinsho/bufferline.nvim'
+Plug 'Pocco81/Catppuccino.nvim'
+Plug 'p00f/nvim-ts-rainbow'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'morphisjustfun/nvim-code2text'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 call plug#end()
 
+lua require('impatient')

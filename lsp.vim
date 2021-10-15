@@ -164,7 +164,7 @@ local function setup_servers()
                     -- eslint
                     eslint_enable_code_actions = true,
                     eslint_enable_disable_comments = true,
-                    eslint_bin = "eslint",
+                    eslint_bin = "eslint_d",
                     eslint_enable_diagnostics = false,
                     eslint_opts = {},
                     -- formatting
@@ -240,8 +240,8 @@ cmp.setup {
         end
     },
     mapping = {
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-k>"] = cmp.mapping.select_prev_item(),
+        ["<C-j>"] = cmp.mapping.select_next_item(),
         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
@@ -251,8 +251,8 @@ cmp.setup {
             select = true
         },
         ["<Tab>"] = function(fallback)
-            if vim.fn.pumvisible() == 1 then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-n>", true, true, true), "n")
+            if cmp.visible() then
+                cmp.select_next_item()
             elseif luasnip.expand_or_jumpable() then
                 vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
             else
