@@ -14,22 +14,10 @@ require("twilight").setup {}
 
 require("trouble").setup {}
 
-require "nvim-web-devicons".setup {
-    -- your personnal icons can go here (to override)
-    -- DevIcon will be appended to `name`
-    override = {
-        zsh = {
-            icon = "",
-            color = "#428850",
-            name = "Zsh"
-        }
-    },
-    -- globally enable default icons (default to false)
-    -- will get overriden by `get_icons` option
-    default = true }
 local actions = require("telescope.actions")
 local trouble = require("trouble.providers.telescope")
 
+require("telescope").load_extension("flutter")
 local telescope = require("telescope")
 
 telescope.setup {
@@ -58,7 +46,7 @@ require "colorizer".setup()
 require("lualine").setup(
     {
         options = {disabled_filetypes = {"dashboard","NvimTree"},
-        theme = "tokyonight"
+        -- theme = "tokyonight"
         },
     }
 )

@@ -27,8 +27,9 @@ set splitright
 set splitbelow
 let mapleader = " "
 let &t_ut=''
-set signcolumn=auto:2
+set signcolumn=yes:2
 set mouse=a
+set incsearch
 
 " Vista
 
@@ -70,4 +71,6 @@ let g:autopep8_aggressive=2
 
 " Nvim tree
 
-let g:auto_session_pre_save_cmds = ["tabdo NvimTreeClose"]
+let g:auto_session_pre_save_cmds = ["tabdo NvimTreeClose","tabdo lua require('dapui').close()"]
+autocmd BufNewFile,BufRead *.cshtml set syntax=html
+autocmd BufNewFile,BufRead *.cshtml set filetype=html
