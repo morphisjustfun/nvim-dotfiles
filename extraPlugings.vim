@@ -47,6 +47,7 @@ require("lualine").setup(
     {
         options = {disabled_filetypes = {"dashboard","NvimTree"},
         -- theme = "tokyonight"
+        theme = "catppuccin"
         },
     }
 )

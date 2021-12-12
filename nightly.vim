@@ -67,8 +67,6 @@ Plug 'akinsho/flutter-tools.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'rktjmp/lush.nvim'
 Plug 'kristijanhusak/vim-carbon-now-sh'
-Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'roxma/nvim-yarp'
 call plug#end()
 
 " lua require('impatient')
@@ -293,48 +291,76 @@ let g:copilot_no_tab_map = v:true
 
 set list
 
-let g:gruvbox_italic = 1
-let g:gruvbox_contrast_light = "hard"
-let g:gruvbox_italicize_strings = 1
-let g:gruvbox_underline = 0
-let g:gruvbox_invert_indent_guides = 1
-let g:gruvbox_improved_strings = 1
-let g:gruvbox_improved_warnings = 1
+" let g:gruvbox_italic = 1
+" let g:gruvbox_contrast_light = "hard"
+" let g:gruvbox_italicize_strings = 1
+" let g:gruvbox_underline = 0
+" let g:gruvbox_invert_indent_guides = 1
+" let g:gruvbox_improved_strings = 1
+" let g:gruvbox_improved_warnings = 1
 
-set background=light
-colorscheme gruvbox
+" set background=light
+" colorscheme gruvbox
 
-call wilder#setup({'modes': [':', '/', '?']})
+lua << EOF
+local catppuccin = require("catppuccin")
 
-call wilder#set_option('pipeline', [
-      \   wilder#branch(
-      \     wilder#cmdline_pipeline({
-      \       'fuzzy': 1,
-      \       'set_pcre2_pattern': has('nvim'),
-      \     }),
-      \     wilder#python_search_pipeline({
-      \       'pattern': 'fuzzy',
-      \     }),
-      \   ),
-      \ ])
+-- configure it
+catppuccin.setup(
+    {
+		transparent_background = false,
+		term_colors = true,
+		styles = {
+			comments = "italic",
+			functions = "italic",
+			keywords = "italic",
+			strings = "italic",
+			variables = "NONE",
+		},
+		integrations = {
+			treesitter = true,
+			native_lsp = {
+				enabled = true,
+				virtual_text = {
+					errors = "italic",
+					hints = "italic",
+					warnings = "italic",
+					information = "italic",
+				},
+				underlines = {
+					errors = "underline",
+					hints = "underline",
+					warnings = "underline",
+					information = "underline",
+				},
+			},
+			lsp_trouble = true,
+			lsp_saga = true,
+			gitgutter = true,
+			gitsigns = true,
+			telescope = true,
+			nvimtree = {
+				enabled = true,
+				show_root = true,
+			},
+			which_key = false,
+			indent_blankline = {
+				enabled = false,
+				colored_indent_levels = false,
+			},
+			dashboard = true,
+			neogit = false,
+			vim_sneak = false,
+			fern = false,
+			barbar = false,
+			bufferline = false,
+			markdown = true,
+			lightspeed = false,
+			ts_rainbow = false,
+			hop = false,
+		},
+	}
+)
+EOF
 
-let s:highlighters = [
-        \ wilder#pcre2_highlighter(),
-        \ wilder#basic_highlighter(),
-        \ ]
-
-call wilder#set_option('renderer', wilder#renderer_mux({
-      \ ':': wilder#popupmenu_renderer({
-      \   'highlighter': s:highlighters,
-      \ }),
-      \ '/': wilder#wildmenu_renderer({
-      \   'highlighter': s:highlighters,
-      \ }),
-      \ }))
-
-call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
-      \ 'highlights': {
-      \   'border': 'Normal',
-      \ },
-      \ 'border': 'rounded',
-      \ })))
+colorscheme catppuccin
