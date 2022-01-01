@@ -1,49 +1,91 @@
-so ~/.vim/config/plug.vim
-so ~/.vim/config/preferences.vim
-so ~/.vim/config/keymaps.vim
-so ~/.vim/config/lsp.vim
-so ~/.vim/config/treesitter.vim
-so ~/.vim/config/extraPlugings.vim
-" DAP
-" cpp
-" so ~/.vim/config/dap/cpp.vim
-" setup
-so ~/.vim/config/dap/general.vim
-so ~/.vim/config/theme.vim
-" so ~/.vim/config/nerdtree.vim
+local saga = require "lspsaga"
+saga.init_lsp_saga(
+{
+    error_sign = '', -- 
+    warn_sign = '',
+    hint_sign = '',
+    infor_sign = '',
+}
+)
+require "lsp_signature".setup()
 
+require("twilight").setup {}
 
-lua << EOF
-local dap_install = require("dap-install")
+require("trouble").setup {}
 
-dap_install.config(
-	"python",
+local actions = require("telescope.actions")
+local trouble = require("trouble.providers.telescope")
+
+require("telescope").load_extension("flutter")
+local telescope = require("telescope")
+
+telescope.setup {
+    defaults = {
+        mappings = {
+            i = {["<c-t>"] = trouble.open_with_trouble},
+            n = {["<c-t>"] = trouble.open_with_trouble}
+        }
+    }
+}
+
+require("todo-comments").setup {}
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+    vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
     {
-        adapters = {
-            type = "executable",
-            command = "python3",
-            args = {"-m", "debugpy.adapter"}
-        },
-        configurations = {
-            {
-                type = "python",
-                request = "launch",
-                name = "Launch file",
-                program = "${file}",
-                pythonPath = function()
-                  local cwd = vim.fn.getcwd()
-                  if vim.fn.executable(cwd .. '/env/bin/python') == 1 then
-                    return cwd .. '/env/bin/python'
-                  elseif vim.fn.executable(cwd .. '/.env/bin/python') == 1 then
-                    return cwd .. '/.env/bin/python'
-                  else
-                    return '/usr/bin/python3'
-                  end
-                end
-            }
+        underline = true,
+        virtual_text = false,
+        signs = true,
+        update_in_insert = true
+    }
+)
+
+require "colorizer".setup()
+
+require("lualine").setup(
+    {
+        options = {disabled_filetypes = {"dashboard","NvimTree"},
+        -- theme = "tokyonight"
+        theme = "catppuccin"
         }
     }
 )
+
+require "nvim-web-devicons".setup {
+    override = {
+        zsh = {
+            icon = "",
+            color = "#428850",
+            name = "Zsh"
+        }
+    },
+    default = true }
+
+vim.g.nvim_tree_icons = {
+    default= '',
+    symlink= '',
+    git= {
+      unstaged= "✗",
+      staged= "✓",
+      unmerged= "",
+      renamed= "➜",
+      untracked= "★",
+      deleted= "",
+      ignored= "◌"
+      },
+    folder= {
+      arrow_open= "",
+      arrow_closed= "",
+      default= "",
+      open= "",
+      empty= "",
+      empty_open= "",
+      symlink= "",
+      symlink_open= "",
+      }
+    }
+
 
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 -- default mappings
@@ -81,6 +123,7 @@ local key_list = {
   { key = "q",                            cb = tree_cb("close") },
   { key = "g?",                           cb = tree_cb("toggle_help") },
 }
+
 
 require'nvim-tree'.setup {
   -- disables netrw completely
@@ -144,68 +187,3 @@ require'nvim-tree'.setup {
       list = key_list
   }
    }}
-
-vim.g.tokyonight_style = "night"
-vim.g.tokyonight_italic_functions = true
-vim.g.tokyonight_transparent = true
-vim.g.tokyonight_transparent_sidebar = true
-vim.g.tokyonight_day_brightness = 1
-vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
-
--- Change the "hint" color to the "orange" color, and make the "error" color bright red
--- vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
-vim.g.tokyonight_colors = { hint = "orange" }
-
--- Load the colorscheme
-vim.cmd[[colorscheme tokyonight]]
-EOF
-
-lua << EOF
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = false,
-    update_in_insert = false,
-    virtual_text = true
-  }
-)
-
-require "nvim-web-devicons".setup {
-    -- your personnal icons can go here (to override)
-    -- DevIcon will be appended to `name`
-    override = {
-        zsh = {
-            icon = "",
-            color = "#428850",
-            name = "Zsh"
-        }
-    },
-    -- globally enable default icons (default to false)
-    -- will get overriden by `get_icons` option
-    default = true }
-EOF
-
-let g:nvim_tree_icons = {
-    \ 'default': '',
-    \ 'symlink': '',
-    \ 'git': {
-    \   'unstaged': "✗",
-    \   'staged': "✓",
-    \   'unmerged': "",
-    \   'renamed': "➜",
-    \   'untracked': "★",
-    \   'deleted': "",
-    \   'ignored': "◌"
-    \   },
-    \ 'folder': {
-    \   'arrow_open': "",
-    \   'arrow_closed': "",
-    \   'default': "",
-    \   'open': "",
-    \   'empty': "",
-    \   'empty_open': "",
-    \   'symlink': "",
-    \   'symlink_open': "",
-    \   }
-    \ }
-
-set dictionary+=/usr/share/dict/words

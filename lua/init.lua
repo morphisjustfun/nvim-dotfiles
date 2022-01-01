@@ -1,0 +1,8 @@
+require('plugings')
+require('preferences')
+require('keymaps')
+require('lsp')
+require('treesitter')
+require('extraPlugings')
+require('dapSetup')
+require('theme')

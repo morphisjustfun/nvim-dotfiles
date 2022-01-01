@@ -1,4 +1,3 @@
-lua << EOF
 local dap = require('dap')
 require("nvim-dap-virtual-text").setup {
     enabled = true, -- enable this plugin (the default)
@@ -21,6 +20,7 @@ local dbg_list = require("dap-install.api.debuggers").get_installed_debuggers()
 for _, debugger in ipairs(dbg_list) do
    dap_install.config(debugger,{})
 end
+
 dap.configurations.javascript = dap.configurations.javascriptreact
 dap.configurations.javascript = 
 { {
@@ -61,5 +61,33 @@ dap.configurations.cpp =
   } }
 
 dap.configurations.c = dap.configurations.cpp
+
+dap_install.config(
+	"python",
+    {
+        adapters = {
+            type = "executable",
+            command = "python3",
+            args = {"-m", "debugpy.adapter"}
+        },
+        configurations = {
+            {
+                type = "python",
+                request = "launch",
+                name = "Launch file",
+                program = "${file}",
+                pythonPath = function()
+                  local cwd = vim.fn.getcwd()
+                  if vim.fn.executable(cwd .. '/env/bin/python') == 1 then
+                    return cwd .. '/env/bin/python'
+                  elseif vim.fn.executable(cwd .. '/.env/bin/python') == 1 then
+                    return cwd .. '/.env/bin/python'
+                  else
+                    return '/usr/bin/python3'
+                  end
+                end
+            }
+        }
+    }
+)
 require('dapui').setup()
-EOF

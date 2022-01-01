@@ -1,4 +1,12 @@
-lua << EOF
+local win = require("lspconfig.ui.windows")
+local _default_opts = win.default_opts
+
+win.default_opts = function(opts)
+  local opts = _default_opts(opts)
+  opts.border = "rounded"
+  return opts
+end
+
 local lsp_installer = require("nvim-lsp-installer")
 
 local on_attach = function(client, bufnr)
@@ -17,7 +25,6 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", opts)
     buf_set_keymap("n", "K", ":Lspsaga hover_doc<CR>", opts)
     buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
     buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
     buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
@@ -36,7 +43,7 @@ local on_attach = function(client, bufnr)
 
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_exec(
+        vim.cmd(
             [[
     augroup lsp_document_highlight
     autocmd! * <buffer>
@@ -81,132 +88,18 @@ lsp = make_config()
 
 -- lsp-install
 local function setup_servers()
-    -- get all installed servers
-    -- local servers = require "lspinstall".installed_servers()
-    -- ... and add manually installed servers
-    -- table.insert(servers, "clangd")
-    -- table.insert(servers, "sourcekit")
-
-
     lsp_installer.on_server_ready(function(server)
     local config = make_config()
-    -- local opts = {}
-        vim.api.nvim_exec([[
-       nnoremap <leader>b :lua require'dap'.toggle_breakpoint()<CR>
-       ]], false)
-        vim.api.nvim_exec(
-       "nnoremap == :lua require'dap'.step_over()<CR>"
-       , false)
-        vim.api.nvim_exec([[
-       nnoremap -- :lua require'dap'.step_into()<CR>
-       ]], false)
-        vim.api.nvim_exec([[
-       nnoremap \\ :lua require'dap'.continue()<CR>
-       ]], false)
-        vim.api.nvim_exec([[
-       nnoremap <leader>qt :lua require'dapui'.toggle()<CR>
-       ]], false)
-    -- if server.name == "tsserver" then
-    --         require("null-ls").config {}
-    --         require("lspconfig")["null-ls"].setup {
-    --            autostart = true
-    --            }
-    --         config.on_attach = function(client, bufnr)
-    --             require "lsp_signature".on_attach()
-    --             local function buf_set_keymap(...)
-    --                 vim.api.nvim_buf_set_keymap(bufnr, ...)
-    --             end
-    --             local function buf_set_option(...)
-    --                 vim.api.nvim_buf_set_option(bufnr, ...)
-    --             end
 
-    --             buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+         vim.api.nvim_set_keymap("n", "<LEADER>b", "<CMD>lua require'dap'.toggle_breakpoint()<CR>", {noremap = true, silent = true})
+         vim.api.nvim_set_keymap("n", "==", "<CMD>lua require'dap'.step_over()<CR>", {noremap = true, silent = true})
+         vim.api.nvim_set_keymap("n", "--", "<CMD>lua require'dap'.step_into()<CR>", {noremap = true, silent = true})
+         vim.api.nvim_set_keymap("n", "\\", "<CMD>lua require'dap'.continue()<CR>", {noremap = true, silent = true})
+         vim.api.nvim_set_keymap("n", "<LEADER>qt", "<CMD>lua require'dapui'.toggle()<CR>", {noremap = true, silent = true})
 
-    --             -- Mappings.
-    --             local opts = {noremap = true, silent = true}
-    --             buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    --             buf_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", opts)
-    --             buf_set_keymap("n", "K", ":Lspsaga hover_doc<CR>", opts)
-    --             buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    --             buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    --             buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-    --             buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-    --             buf_set_keymap(
-    --                 "n",
-    --                 "<space>wl",
-    --                 "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-    --                 opts
-    --             )
-    --             buf_set_keymap("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-    --             buf_set_keymap("n", "<space>rn", ":Lspsaga rename<CR>", opts)
-    --             buf_set_keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
-    --             buf_set_keymap("n", "<space>e", ":Lspsaga show_line_diagnostics<CR>", opts)
-    --             buf_set_keymap("n", "<S-M>", ":Lspsaga preview_definition<CR>", opts)
 
-    --             client.resolved_capabilities.document_formatting = false
-    --             client.resolved_capabilities.range_formatting = false
-
-    --             local ts_utils = require("nvim-lsp-ts-utils")
-
-    --             ts_utils.setup {
-    --                 debug = false,
-    --                 disable_commands = false,
-    --                 enable_import_on_completion = false,
-    --                 -- import all
-    --                 import_all_timeout = 5000, -- ms
-    --                 import_all_priorities = {
-    --                     buffers = 4, -- loaded buffer names
-    --                     buffer_content = 3, -- loaded buffer content
-    --                     local_files = 2, -- git files or files with relative path markers
-    --                     same_file = 1 -- add to existing import statement
-    --                 },
-    --                 import_all_scan_buffers = 100,
-    --                 import_all_select_source = false,
-    --                 -- eslint
-    --                 eslint_enable_code_actions = true,
-    --                 eslint_enable_disable_comments = true,
-    --                 eslint_bin = "eslint_d",
-    --                 eslint_enable_diagnostics = false,
-    --                 eslint_opts = {},
-    --                 -- formatting
-    --                 enable_formatting = true,
-    --                 formatter = "prettier",
-    --                 formatter_opts = {},
-    --                 -- update imports on file move
-    --                 update_imports_on_move = false,
-    --                 require_confirmation_on_move = false,
-    --                 watch_dir = nil,
-    --                 -- filter diagnostics
-    --                 filter_out_diagnostics_by_severity = {},
-    --                 filter_out_diagnostics_by_code = {}
-    --             }
-
-    --             ts_utils.setup(client)
-
-    --             -- Set some keybinds conditional on server capabilities
-    --             buf_set_keymap("n", ";;", ":lua vim.lsp.buf.range_formatting()<CR>", opts)
-    --             buf_set_keymap("n", ";;", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-
-    --             -- Set autocommands conditional on server_capabilities
-    --             if client.resolved_capabilities.document_highlight then
-    --                 vim.api.nvim_exec(
-    --                     [[
-    --          augroup lsp_document_highlight
-    --          autocmd! * <buffer>
-    --          autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    --          autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    --          augroup END
-    --          ]],
-    --                     false
-    --                 )
-    --             end
-    --         end
-    --         -- require "lspconfig"[server].setup(config)
-    --         server:setup(config)
          if server.name == "pyright" then
-            vim.api.nvim_exec([[
-       nnoremap <silent> ;; :Autopep8<CR>
-       ]], false)
+       vim.api.nvim_set_keymap("n", ";;", "<CMD>Autopep8<CR>", {noremap = true, silent = true})
             -- require "lspconfig"[server].setup(config)
             server:setup(config)
          elseif server.name == "tsserver" then
@@ -230,7 +123,6 @@ local function setup_servers()
              buf_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", opts)
              buf_set_keymap("n", "K", ":Lspsaga hover_doc<CR>", opts)
              buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-             buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
              buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
              buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
              buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
@@ -249,7 +141,7 @@ local function setup_servers()
 
              -- Set autocommands conditional on server_capabilities
              if client.resolved_capabilities.document_highlight then
-                 vim.api.nvim_exec(
+                 vim.cmd(
                      [[
              augroup lsp_document_highlight
              autocmd! * <buffer>
@@ -282,7 +174,6 @@ local function setup_servers()
     buf_set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", opts)
     buf_set_keymap("n", "K", ":Lspsaga hover_doc<CR>", opts)
     buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
     buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
     buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
@@ -303,7 +194,7 @@ local function setup_servers()
 
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_exec(
+        vim.cmd(
             [[
     augroup lsp_document_highlight
     autocmd! * <buffer>
@@ -315,12 +206,6 @@ local function setup_servers()
         )
     end
          end
-            -- vim.api.nvim_exec(
-            -- [[
-            -- nnoremap ;; :lua vim.lsp.buf.formatting()<CR>
-            -- nnoremap ;; :echo 'mario'
-            -- ]], 
-         -- false)
             server:setup(config)
          elseif server.name == "jsonls" then
             config.settings = {
@@ -328,29 +213,11 @@ local function setup_servers()
                   schemas = require('schemastore').json.schemas(),
                   },
             }
-
--- server:setup( {
---   settings = {
---     json = {
---       schemas = require('schemastore').json.schemas {
---         select = {
---           '.eslintrc',
---           'package.json',
---         },
---       },
---     },
---   },
--- })
-            -- server:setup(config)
             server:setup(config)
-         -- elseif server.name == "eslint" then
-         --    print('eslint not loaded')
          else
             server:setup(config)
-            -- require "lspconfig"[server].setup(config)
          end
     end)
-    -- server:setup(opts)
 end
 
 setup_servers()
@@ -409,6 +276,7 @@ cmp.setup {
         {name = "calc"},
         {name = "path"},
         {name = "buffer"},
+         {name = "neorg"},
         -- {name = "dictionary", keyword_length =2,}
     }
 }
@@ -429,5 +297,3 @@ function _G.lsp_reinstall_all()
 end
 
 vim.cmd "command! -nargs=0 LspReinstallAll call v:lua.lsp_reinstall_all()"
-
-EOF
