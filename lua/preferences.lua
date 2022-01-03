@@ -1,5 +1,6 @@
 -- Preferences
 
+vim.notify = require('notify')
 vim.cmd([[
 filetype plugin on
 syntax enable

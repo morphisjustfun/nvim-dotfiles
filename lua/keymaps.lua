@@ -44,7 +44,7 @@ vim.api.nvim_set_keymap(
 	{ noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap("n", "<LEADER>s", "<CMD>Lspsaga code_action<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<LEADER>s", "<CMD><C-U>Lspsaga code_action<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<LEADER>s", ":<C-u>Lspsaga code_action<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
 	"n",
 	"<LEADER>cc",
