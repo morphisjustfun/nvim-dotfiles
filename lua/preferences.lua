@@ -10,7 +10,7 @@ set undodir=~/.vim/undodir
 vim.opt.compatible = false
 vim.opt.number = true
 vim.opt.numberwidth = 1
-vim.opt.clipboard = {"unnamedplus"}
+vim.opt.clipboard = { "unnamedplus" }
 vim.opt.showcmd = true
 vim.opt.ruler = true
 vim.opt.encoding = "utf-8"
@@ -26,14 +26,14 @@ vim.opt.writebackup = false
 vim.opt.swapfile = false
 vim.opt.cmdheight = 2
 vim.opt.updatetime = 300
-vim.opt.shortmess:append({c = True})
+vim.opt.shortmess:append({ c = true })
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.signcolumn = "yes:2"
-vim.opt.mouse = {a = true}
+vim.opt.mouse = { a = true }
 vim.opt.incsearch = true
 vim.opt.undofile = true
 vim.opt.ignorecase = true
@@ -46,10 +46,10 @@ vim.opt.conceallevel = 0
 vim.opt.foldenable = false
 vim.opt.list = true
 vim.opt.fillchars = { fold = " " }
-vim.o.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
-vim.o.dictionary="/usr/share/dict/words"
-
-
+vim.o.foldtext =
+	[[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+vim.o.dictionary = "/usr/share/dict/words"
+vim.o.completeopt = "menuone,noselect"
 
 -- Vista
 vim.g.vista_default_executive = "nvim_lsp"
@@ -93,8 +93,8 @@ vim.g.autopep8_disable_show_diff = 1
 
 -- NvimTree
 
-vim.g.auto_session_pre_save_cmds = {"tabdo NvimTreeClose","tabdo lua require('dapui').close()"}
-vim.g.auto_session_post_restore_cmds = {"tabdo NvimTreeClose","tabdo lua require('dapui').close()"}
+vim.g.auto_session_pre_save_cmds = { "tabdo NvimTreeClose", "tabdo lua require('dapui').close()" }
+vim.g.auto_session_post_restore_cmds = { "tabdo NvimTreeClose", "tabdo lua require('dapui').close()" }
 
 -- Syntax for cshtml
 
