@@ -1,11 +1,29 @@
+-- Neorg
+
+require("neorg").setup({
+	-- Tell Neorg what modules to load
+	load = {
+		["core.defaults"] = {}, -- Load all the default modules
+		["core.norg.concealer"] = {}, -- Allows for use of icons
+		["core.norg.dirman"] = { -- Manage your directories with Neorg
+			config = {
+				workspaces = {
+					my_workspace = "~/notes",
+				},
+			},
+		},
+	},
+})
+
 -- Lspsaga
 
 local saga = require("lspsaga")
 saga.init_lsp_saga({
-	error_sign = "", -- 
+	error_sign = "",
 	warn_sign = "",
 	hint_sign = "",
 	infor_sign = "",
+	border_style = "round",
 })
 
 require("lsp_signature").setup()
@@ -32,8 +50,20 @@ telescope.setup({
 			i = { ["<c-t>"] = trouble.open_with_trouble },
 			n = { ["<c-t>"] = trouble.open_with_trouble },
 		},
+		file_ignore_patterns = { "^./.git/", "^node_modules/", "^env/" },
+	},
+	extensions = {
+		fzf = {
+			fuzzy = true, -- false will only do exact matching
+			override_generic_sorter = true, -- override the generic sorter
+			override_file_sorter = true, -- override the file sorter
+			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+			-- the default case_mode is "smart_case"
+		},
 	},
 })
+
+require("telescope").load_extension("fzf")
 
 -- todo comments
 

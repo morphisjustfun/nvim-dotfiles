@@ -1,6 +1,6 @@
 -- Preferences
 
-vim.notify = require('notify')
+vim.notify = require("notify")
 vim.cmd([[
 filetype plugin on
 syntax enable
@@ -45,7 +45,6 @@ vim.opt.foldnestmax = 3
 vim.opt.foldminlines = 1
 vim.opt.conceallevel = 0
 vim.opt.foldenable = false
-vim.opt.list = true
 vim.opt.fillchars = { fold = " " }
 vim.o.foldtext =
 	[[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
