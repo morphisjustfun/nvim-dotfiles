@@ -1,20 +1,3 @@
--- Neorg
-
-require("neorg").setup({
-	-- Tell Neorg what modules to load
-	load = {
-		["core.defaults"] = {}, -- Load all the default modules
-		["core.norg.concealer"] = {}, -- Allows for use of icons
-		["core.norg.dirman"] = { -- Manage your directories with Neorg
-			config = {
-				workspaces = {
-					my_workspace = "~/notes",
-				},
-			},
-		},
-	},
-})
-
 -- Lspsaga
 
 local saga = require("lspsaga")
@@ -64,10 +47,6 @@ telescope.setup({
 })
 
 require("telescope").load_extension("fzf")
-
--- todo comments
-
-require("todo-comments").setup()
 
 -- LSP extensions
 
@@ -121,7 +100,7 @@ vim.g.nvim_tree_icons = {
 	},
 	folder = {
 		arrow_open = "",
-		arrow_closed = "",
+		arrow_closed = ">",
 		default = "",
 		open = "",
 		empty = "",

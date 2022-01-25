@@ -29,20 +29,20 @@ vim.api.nvim_set_keymap("n", "//", "<CMD>Telescope current_buffer_fuzzy_find<CR>
 
 -- Lspsaga keymaps
 
-vim.api.nvim_set_keymap("n", "[d", "<CMD>Lspsaga diagnostic_jump_prev<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "]d", "<CMD>Lspsaga diagnostic_jump_next<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap(
-	"n",
-	"<A-d>",
-	"<CMD>lua require('lspsaga.floaterm').open_float_terminal('lazygit')<CR>",
-	{ noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-	"t",
-	"<A-d>",
-	"<C-\\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>",
-	{ noremap = true, silent = true }
-)
+-- vim.api.nvim_set_keymap("n", "[d", "<CMD>Lspsaga diagnostic_jump_prev<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "]d", "<CMD>Lspsaga diagnostic_jump_next<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap(
+-- 	"n",
+-- 	"<LEADER>d",
+-- 	"<CMD>lua require('lspsaga.floaterm').open_float_terminal('lazygit')<CR>",
+-- 	{ noremap = true, silent = true }
+-- )
+-- vim.api.nvim_set_keymap(
+-- 	"t",
+-- 	"<LEADER>d",
+-- 	"<C-\\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>",
+-- 	{ noremap = true, silent = true }
+--)
 vim.api.nvim_set_keymap("n", "<LEADER>s", "<CMD>Lspsaga code_action<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<LEADER>s", ":<C-u>Lspsaga code_action<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap(
