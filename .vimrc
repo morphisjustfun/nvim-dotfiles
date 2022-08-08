@@ -1,4 +1,4 @@
-set runtimepath+=~/.vim/config
-lua << EOF
-require('init')
-EOF
+if has('nvim')
+   source ~/.vim/config/nvimrc
+endif
+
